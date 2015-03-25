@@ -1,0 +1,24 @@
+package com.xuh.platform.module.message.dao;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import com.xuh.platform.base.dao.BaseDao;
+import com.xuh.platform.module.message.entity.WxBaseAutoresponse;
+
+/**
+ * 自动回复Dao
+ * @author xufeng
+ * @date 2014.8.30
+ */
+@Repository
+public interface WxBaseAutoresponseDao extends BaseDao<WxBaseAutoresponse, String> {
+
+	/**
+	 * 根据系统账号ID和关键字获得回复内容
+	 * @param wxAccountid
+	 * @return
+	 */
+	public WxBaseAutoresponse loadByAccountid(@Param("accountid")String accountid,@Param("keyword")String keyword) throws Exception;
+
+}

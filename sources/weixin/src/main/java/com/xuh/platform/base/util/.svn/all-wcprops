@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/xh/!svn/ver/93/code/weixin/src/main/java/com/xuh/platform/base/util
+END
+SpringUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/xh/!svn/ver/93/code/weixin/src/main/java/com/xuh/platform/base/util/SpringUtil.java
+END
+HtmlUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xh/!svn/ver/75/code/weixin/src/main/java/com/xuh/platform/base/util/HtmlUtil.java
+END
+StringUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/xh/!svn/ver/152/code/weixin/src/main/java/com/xuh/platform/base/util/StringUtil.java
+END
+JSONUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xh/!svn/ver/75/code/weixin/src/main/java/com/xuh/platform/base/util/JSONUtil.java
+END
+Encrypter.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/xh/!svn/ver/75/code/weixin/src/main/java/com/xuh/platform/base/util/Encrypter.java
+END
+DateUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xh/!svn/ver/75/code/weixin/src/main/java/com/xuh/platform/base/util/DateUtil.java
+END
+UUIDGenerator.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/xh/!svn/ver/75/code/weixin/src/main/java/com/xuh/platform/base/util/UUIDGenerator.java
+END
+FileUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/xh/!svn/ver/166/code/weixin/src/main/java/com/xuh/platform/base/util/FileUtil.java
+END
+GisUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xh/!svn/ver/75/code/weixin/src/main/java/com/xuh/platform/base/util/GisUtil.java
+END
+BrowserUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/xh/!svn/ver/75/code/weixin/src/main/java/com/xuh/platform/base/util/BrowserUtil.java
+END
+ReflectUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/xh/!svn/ver/75/code/weixin/src/main/java/com/xuh/platform/base/util/ReflectUtil.java
+END
+ResourceUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/xh/!svn/ver/166/code/weixin/src/main/java/com/xuh/platform/base/util/ResourceUtil.java
+END
+BrowserType.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/xh/!svn/ver/75/code/weixin/src/main/java/com/xuh/platform/base/util/BrowserType.java
+END
+StreamUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/xh/!svn/ver/75/code/weixin/src/main/java/com/xuh/platform/base/util/StreamUtil.java
+END
+PropertiesUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/xh/!svn/ver/75/code/weixin/src/main/java/com/xuh/platform/base/util/PropertiesUtil.java
+END
+SQLUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xh/!svn/ver/75/code/weixin/src/main/java/com/xuh/platform/base/util/SQLUtil.java
+END

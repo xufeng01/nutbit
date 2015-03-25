@@ -1,0 +1,106 @@
+package com.xuh.platform.module.sys.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * 系统日志
+ * @author xufeng
+ * @date 2014.8.29
+ */
+public class SysLog implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 日志ID
+	 */
+	private String logid;
+
+	/**
+	 * 用户ID
+	 */
+    private String userid;
+
+    /**
+     * 模块名
+     */
+    private String module;
+
+    /**
+     * 功能名
+     */
+    private String func;
+    
+    /**
+     * 日志内容
+     */
+    private String logcontent;
+
+    /**
+     * 操作类型 01 新增 02编辑 03删除 04导入 05导出 06打印
+     */
+    private String operatetype;
+
+    /**
+     * 记录时间
+     */
+    private Date operatetime;
+
+	public String getLogid() {
+		return logid;
+	}
+
+	public void setLogid(String logid) {
+		this.logid = logid;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public String getModule() {
+		return module;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
+	}
+
+	public String getFunc() {
+		return func;
+	}
+
+	public void setFunc(String func) {
+		this.func = func;
+	}
+
+	public String getLogcontent() {
+		return logcontent;
+	}
+
+	public void setLogcontent(String logcontent) {
+		this.logcontent = logcontent;
+	}
+
+	public String getOperatetype() {
+		return operatetype;
+	}
+
+	public void setOperatetype(String operatetype) {
+		this.operatetype = operatetype;
+	}
+
+	public Date getOperatetime() {
+		return operatetime;
+	}
+
+	public void setOperatetime(Date operatetime) {
+		this.operatetime = operatetime;
+	}
+    
+}

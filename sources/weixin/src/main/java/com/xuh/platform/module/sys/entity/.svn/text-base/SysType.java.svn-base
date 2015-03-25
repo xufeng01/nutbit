@@ -1,0 +1,65 @@
+package com.xuh.platform.module.sys.entity;
+
+import java.io.Serializable;
+
+/**
+ * 字典类型
+ * @author xufeng
+ * @date 2014.8.29
+ */
+public class SysType implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 字典类型ID
+	 */
+	private String typeid;
+
+	/**
+	 * 字典类型组ID
+	 */
+    private String typegroupid;
+    
+    /**
+     * 字典类型编码
+     */
+    private String typecode;
+    
+    /**
+     * 字典类型名
+     */
+    private String typename;
+
+	public String getTypeid() {
+		return typeid;
+	}
+
+	public void setTypeid(String typeid) {
+		this.typeid = typeid;
+	}
+
+	public String getTypegroupid() {
+		return typegroupid;
+	}
+
+	public void setTypegroupid(String typegroupid) {
+		this.typegroupid = typegroupid;
+	}
+
+	public String getTypecode() {
+		return typecode;
+	}
+
+	public void setTypecode(String typecode) {
+		this.typecode = typecode;
+	}
+
+	public String getTypename() {
+		return typename;
+	}
+
+	public void setTypename(String typename) {
+		this.typename = typename;
+	}
+
+}

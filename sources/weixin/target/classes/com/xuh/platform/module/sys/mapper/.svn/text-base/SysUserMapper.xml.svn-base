@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuh.platform.module.sys.dao.SysUserDao" >
+  <resultMap id="BaseResultMap" type="com.xuh.platform.module.sys.entity.SysUser" >
+    <id column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="orgid" property="orgid" jdbcType="VARCHAR" />
+    <result column="loginname" property="loginname" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="browser" property="browser" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="mobiletel" property="mobiletel" jdbcType="VARCHAR" />
+    <result column="officetel" property="officetel" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="usertype" property="usertype" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userid, orgid, loginname, password, username, browser, status, mobiletel, officetel, 
+    email, usertype
+  </sql>
+   
+  <!-- 根据ID查询 -->
+  <select id="loadById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where userid = #{userid}
+  </select>
+  
+  <!-- 根据登陆账号和 -->
+  <select id="loadByLogin" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where loginname = #{loginname} and password=#{password}
+  </select>
+  
+  <!-- 查询所有的结果集-->
+  <select id="loadListByParams" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from sys_user
+  </select>
+  
+    <!-- 新增 -->
+  <insert id="save" parameterType="com.xuh.platform.module.sys.entity.SysUser" >
+      insert into sys_user (userid, orgid, loginname, 
+      password, username, browser, 
+      status, mobiletel, officetel, 
+      email, usertype)
+    values (#{userid}, #{orgid}, #{loginname}, 
+      #{password}, #{username}, #{browser}, 
+      #{status}, #{mobiletel}, #{officetel}, 
+      #{email}, #{usertype})
+  </insert>
+ 
+  <!-- 更新 -->
+  <update id="update" parameterType="com.xuh.platform.module.sys.entity.SysUser" >
+     update sys_user
+    set orgid = #{orgid},
+      password = #{password},
+      username = #{username},
+      browser = #{browser},
+      mobiletel = #{mobiletel},
+      officetel = #{officetel},
+      email = #{email},
+      usertype = #{usertype}
+      where userid=#{userid}
+  </update>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from sys_user
+    where userid = #{userid}
+  </delete>
+  
+  <!-- 分页查询 -->
+  <select id="loadPageByParams"  resultType="map" parameterType="map" >
+    select userid, u.orgid, o.orgname,loginname, password, username, browser, status, mobiletel, officetel, 
+    email, usertype
+    from sys_user u
+    left join sys_org o on o.orgid=u.orgid
+    <where> 
+       <if test="username!=null and username!=''"> and username like #{username}"%"</if>
+    </where>
+    limit #{start},#{end}
+  </select>
+  <select id="loadCountByParams" resultType="int" parameterType="map" >
+    select count(*)
+    from sys_user
+    <where> 
+       <if test="username!=null and username!=''"> and username like #{username}"%"</if>
+    </where>
+  </select>
+  
+   <!--根据用户ID查询角色 -->
+  <select id="loadRoleidByUserid" parameterType="java.lang.String"  resultType="java.lang.String">
+    select roleid from sys_userrole
+    where userid = #{userid}
+  </select>
+  
+    <!-- 根据userid删除分配角色-->
+  <delete id="deleteUserRoleByUserid" parameterType="java.lang.String" >
+    delete from sys_userrole
+    where userid = #{userid}
+  </delete>
+   <!-- 保存用户分配角色-->
+   <insert id="saveUserRole" parameterType="map" >
+      insert into sys_userrole (conid, userid, roleid) values (#{conid},#{userid},#{roleid})
+  </insert>
+  
+  
+  
+</mapper>

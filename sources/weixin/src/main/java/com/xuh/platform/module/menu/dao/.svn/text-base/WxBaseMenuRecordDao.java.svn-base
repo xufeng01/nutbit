@@ -1,0 +1,18 @@
+package com.xuh.platform.module.menu.dao;
+
+import org.springframework.stereotype.Repository;
+
+import com.xuh.platform.base.dao.BaseDao;
+import com.xuh.platform.module.menu.entity.WxBaseMenuRecord;
+
+/**
+ * 菜单记录DAO
+ * @author xufeng
+ * @date 2014.9.23
+ */
+@Repository
+public interface WxBaseMenuRecordDao extends BaseDao<WxBaseMenuRecord, String>{
+
+	public void delete(String accountid, String openid)throws Exception;
+	
+}

@@ -1,0 +1,79 @@
+package com.xuh.platform.module.menu.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * 微信菜单记录
+ * @author xufeng
+ * @date 2014.9.23
+ */
+public class WxBaseMenuRecord implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 记录ID
+	 */
+	private String recordid;
+	
+	/**
+	 * 访问的微信账号ID
+	 */
+    private String openid;
+    
+    /**
+     * 菜单key
+     */
+    private String menukey;
+    
+    private String accountid;
+
+    /**
+     * 更新时间
+     */
+    private Date addtime;
+
+	public String getRecordid() {
+		return recordid;
+	}
+
+	public void setRecordid(String recordid) {
+		this.recordid = recordid;
+	}
+
+	public String getOpenid() {
+		return openid;
+	}
+
+	public void setOpenid(String openid) {
+		this.openid = openid;
+	}
+
+	public String getMenukey() {
+		return menukey;
+	}
+
+	public void setMenukey(String menukey) {
+		this.menukey = menukey;
+	}
+
+	public Date getAddtime() {
+		return addtime;
+	}
+
+	public void setAddtime(Date addtime) {
+		this.addtime = addtime;
+	}
+
+	public String getAccountid() {
+		return accountid;
+	}
+
+	public void setAccountid(String accountid) {
+		this.accountid = accountid;
+	}
+
+	
+
+   
+}

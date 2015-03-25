@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/xh/!svn/ver/61/code/weixin/src/main/java/com/xuh/platform/weixin/vo/req
+END
+ImageMessageReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/xh/!svn/ver/61/code/weixin/src/main/java/com/xuh/platform/weixin/vo/req/ImageMessageReq.java
+END
+TextMessageReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/xh/!svn/ver/61/code/weixin/src/main/java/com/xuh/platform/weixin/vo/req/TextMessageReq.java
+END
+VoiceMessageReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/xh/!svn/ver/61/code/weixin/src/main/java/com/xuh/platform/weixin/vo/req/VoiceMessageReq.java
+END
+LocationMessageReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/xh/!svn/ver/61/code/weixin/src/main/java/com/xuh/platform/weixin/vo/req/LocationMessageReq.java
+END
+BaseMessageReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/xh/!svn/ver/61/code/weixin/src/main/java/com/xuh/platform/weixin/vo/req/BaseMessageReq.java
+END
+LinkMessageReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/xh/!svn/ver/61/code/weixin/src/main/java/com/xuh/platform/weixin/vo/req/LinkMessageReq.java
+END

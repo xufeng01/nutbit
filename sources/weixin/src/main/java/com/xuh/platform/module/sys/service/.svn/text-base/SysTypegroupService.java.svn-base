@@ -1,0 +1,24 @@
+package com.xuh.platform.module.sys.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xuh.platform.base.dao.BaseDao;
+import com.xuh.platform.base.service.BaseService;
+import com.xuh.platform.module.sys.dao.SysTypegroupDao;
+import com.xuh.platform.module.sys.entity.SysTypegroup;
+
+/**
+ * 字典类型组Service
+ * @author xufeng
+ * @date 2014.8.29
+ */
+@Service
+public class SysTypegroupService extends BaseService<SysTypegroup, String>{
+	@Autowired
+	private SysTypegroupDao sysTypegroupDao;
+	
+	public BaseDao<SysTypegroup, String> getDao() {
+		return sysTypegroupDao;
+	}
+}

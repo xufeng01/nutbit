@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/xh/!svn/ver/88/code/weixin/src/main/java/com/xuh/platform/module/message/entity
+END
+WxBaseAutoresponse.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/xh/!svn/ver/180/code/weixin/src/main/java/com/xuh/platform/module/message/entity/WxBaseAutoresponse.java
+END
+WxBaseReceivetext.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/xh/!svn/ver/72/code/weixin/src/main/java/com/xuh/platform/module/message/entity/WxBaseReceivetext.java
+END
+WxBaseNewstemplate.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/xh/!svn/ver/88/code/weixin/src/main/java/com/xuh/platform/module/message/entity/WxBaseNewstemplate.java
+END
+WxBaseNewsitem.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/xh/!svn/ver/88/code/weixin/src/main/java/com/xuh/platform/module/message/entity/WxBaseNewsitem.java
+END
+WxBaseDefaultip.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/xh/!svn/ver/197/code/weixin/src/main/java/com/xuh/platform/module/message/entity/WxBaseDefaultip.java
+END
+WxBaseTexttemplate.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/xh/!svn/ver/87/code/weixin/src/main/java/com/xuh/platform/module/message/entity/WxBaseTexttemplate.java
+END

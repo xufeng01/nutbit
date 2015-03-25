@@ -1,0 +1,94 @@
+package com.xuh.platform.module.menu.service;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xuh.platform.base.dao.BaseDao;
+import com.xuh.platform.base.service.BaseService;
+import com.xuh.platform.base.util.UUIDGenerator;
+import com.xuh.platform.module.menu.dao.WxBaseMenuRecordDao;
+import com.xuh.platform.module.menu.entity.WxBaseMenuRecord;
+
+/**
+ * 微信菜单Service
+ * @author xufeng
+ * @date 2014.8.30
+ */
+@Service
+public class WxBaseMenuRecordService extends BaseService<WxBaseMenuRecord, String>{
+
+	@Autowired
+	private WxBaseMenuRecordDao wxBaseMenuRecordDao;
+	
+	public BaseDao<WxBaseMenuRecord, String> getDao() {
+		return wxBaseMenuRecordDao;
+	}
+	
+	/**
+	 * 保存菜单记录
+	 * @param accountid
+	 * @param openid
+	 * @param menukey
+	 * @throws Exception
+	 */
+	public void save(String accountid, String openid, String menukey) throws Exception{
+		Map<String,Object> params=new HashMap<String, Object>();
+		params.put("accountid", accountid);
+		params.put("openid", openid);
+		List<WxBaseMenuRecord> wxBaseMenuRecords=wxBaseMenuRecordDao.loadListByParams(params);
+		if(wxBaseMenuRecords.size()!=0){
+			WxBaseMenuRecord record=wxBaseMenuRecords.get(0);
+			if(menukey.equals(record.getMenukey())){
+				record.setAddtime(new Date());
+				wxBaseMenuRecordDao.update(record);
+			}else{
+				wxBaseMenuRecordDao.delete(record.getRecordid());
+				WxBaseMenuRecord r=new WxBaseMenuRecord();
+				r.setRecordid(UUIDGenerator.generate());
+				r.setAccountid(accountid);
+				r.setOpenid(openid);
+				r.setMenukey(menukey);
+				r.setAddtime(new Date());
+				wxBaseMenuRecordDao.save(r);
+			}
+		}else{
+			WxBaseMenuRecord record=new WxBaseMenuRecord();
+			record.setRecordid(UUIDGenerator.generate());
+			record.setAccountid(accountid);
+			record.setOpenid(openid);
+			record.setMenukey(menukey);
+			record.setAddtime(new Date());
+			wxBaseMenuRecordDao.save(record);
+		}
+	}
+	
+	/**
+	 * 保存菜单记录
+	 * @param accountid
+	 * @param openid
+	 * @param menukey
+	 * @throws Exception
+	 */
+	public  WxBaseMenuRecord loadRecord(String accountid, String openid) throws Exception{
+		Map<String,Object> params=new HashMap<String, Object>();
+		params.put("accountid", accountid);
+		params.put("openid", openid);
+		List<WxBaseMenuRecord> wxBaseMenuRecords=wxBaseMenuRecordDao.loadListByParams(params);
+		if(wxBaseMenuRecords.size()==0){
+			return null;
+		}else{
+			WxBaseMenuRecord  record=wxBaseMenuRecords.get(0);
+			if(new Date().getTime()-record.getAddtime().getTime()>90*1000){//90秒失效
+				wxBaseMenuRecordDao.delete(record.getRecordid());
+				return null;
+			}else{
+				return record;
+			}
+		}
+	}
+}

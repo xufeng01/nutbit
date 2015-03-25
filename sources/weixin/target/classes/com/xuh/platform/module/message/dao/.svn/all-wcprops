@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/xh/!svn/ver/87/code/weixin/src/main/java/com/xuh/platform/module/message/dao
+END
+WxBaseAutoresponseDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/xh/!svn/ver/87/code/weixin/src/main/java/com/xuh/platform/module/message/dao/WxBaseAutoresponseDao.java
+END
+WxBaseReceivetextDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/xh/!svn/ver/77/code/weixin/src/main/java/com/xuh/platform/module/message/dao/WxBaseReceivetextDao.java
+END
+WxBaseNewstemplateDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/xh/!svn/ver/176/code/weixin/src/main/java/com/xuh/platform/module/message/dao/WxBaseNewstemplateDao.java
+END
+WxBaseNewsitemDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/xh/!svn/ver/171/code/weixin/src/main/java/com/xuh/platform/module/message/dao/WxBaseNewsitemDao.java
+END
+WxBaseDefaultipDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/xh/!svn/ver/197/code/weixin/src/main/java/com/xuh/platform/module/message/dao/WxBaseDefaultipDao.java
+END
+WxBaseTexttemplateDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/xh/!svn/ver/176/code/weixin/src/main/java/com/xuh/platform/module/message/dao/WxBaseTexttemplateDao.java
+END

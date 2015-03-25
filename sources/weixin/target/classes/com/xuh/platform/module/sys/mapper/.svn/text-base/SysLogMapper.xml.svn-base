@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuh.platform.module.sys.dao.SysLogDao" >
+  <resultMap id="BaseResultMap" type="com.xuh.platform.module.sys.entity.SysLog" >
+    <id column="logid" property="logid" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="module" property="module" jdbcType="VARCHAR" />
+    <result column="func" property="func" jdbcType="VARCHAR" />
+    <result column="logcontent" property="logcontent" jdbcType="VARCHAR" />
+    <result column="operatetype" property="operatetype" jdbcType="CHAR" />
+    <result column="operatetime" property="operatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    logid, userid, module, func, logcontent, operatetype, operatetime
+  </sql>
+  
+   <!-- 根据ID查询 -->
+  <select id="loadById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_log
+    where logid = #{logid}
+  </select>
+  
+  <!-- 查询所有的结果集-->
+  <select id="loadListByParams" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from sys_log
+  </select>
+  
+    <!-- 新增 -->
+  <insert id="save" parameterType="com.xuh.platform.module.sys.entity.SysLog" >
+     insert into sys_log (logid, userid, module, 
+      func, logcontent, operatetype, 
+      operatetime)
+    values (#{logid}, #{userid}, #{module}, 
+      #{func}, #{logcontent}, #{operatetype}, 
+      #{operatetime})
+  </insert>
+ 
+  <!-- 更新 -->
+  <update id="update" parameterType="com.xuh.platform.module.sys.entity.SysLog" >
+      update sys_log
+    set logid = #{logid},
+      userid = #{userid},
+      module = #{module},
+      func = #{func},
+      logcontent = #{logcontent},
+      operatetype = #{operatetype},
+      operatetime = #{operatetime}
+  </update>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from sys_log
+    where logid = #{logid}
+  </delete>
+  
+  <!-- 分页查询 -->
+  <select id="loadPageByParams"  resultType="map" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from sys_log
+  </select>
+  <select id="loadCountByParams" resultType="int" parameterType="map" >
+    select count(*)
+    from sys_log
+  </select>
+    
+</mapper>

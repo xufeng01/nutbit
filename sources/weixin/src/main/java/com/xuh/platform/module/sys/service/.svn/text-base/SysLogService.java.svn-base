@@ -1,0 +1,24 @@
+package com.xuh.platform.module.sys.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xuh.platform.base.dao.BaseDao;
+import com.xuh.platform.base.service.BaseService;
+import com.xuh.platform.module.sys.dao.SysLogDao;
+import com.xuh.platform.module.sys.entity.SysLog;
+
+/**
+ * 系统日志Service
+ * @author xufeng
+ * @date 2014.8.29
+ */
+@Service
+public class SysLogService extends BaseService<SysLog, String>{
+	@Autowired
+	private SysLogDao sysLogDao;
+	
+	public BaseDao<SysLog, String> getDao() {
+		return sysLogDao;
+	}
+}

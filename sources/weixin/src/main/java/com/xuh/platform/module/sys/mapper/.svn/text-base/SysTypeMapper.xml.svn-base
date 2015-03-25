@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuh.platform.module.sys.dao.SysTypeDao" >
+  <resultMap id="BaseResultMap" type="com.xuh.platform.module.sys.entity.SysType" >
+    <id column="typeid" property="typeid" jdbcType="VARCHAR" />
+    <result column="typegroupid" property="typegroupid" jdbcType="VARCHAR" />
+    <result column="typecode" property="typecode" jdbcType="VARCHAR" />
+    <result column="typename" property="typename" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    typeid, typegroupid, typecode, typename
+  </sql>
+  
+   <!-- 根据ID查询 -->
+  <select id="loadById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_type
+    where typeid = #{typeid}
+  </select>
+  
+  <!-- 查询所有的结果集-->
+  <select id="loadListByParams" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from sys_type
+  </select>
+  
+    <!-- 新增 -->
+  <insert id="save" parameterType="com.xuh.platform.module.sys.entity.SysType" >
+     insert into sys_type (typeid, typegroupid, typecode,typename)
+    values (#{typeid}, #{typegroupid}, #{typecode},#{typename})
+  </insert>
+ 
+  <!-- 更新 -->
+  <update id="update" parameterType="com.xuh.platform.module.sys.entity.SysType" >
+     update sys_type
+    set typeid = #{typeid},
+      typegroupid = #{typegroupid},
+      typecode = #{typecode},
+      typename = #{typename}
+  </update>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from sys_type
+    where typeid = #{typeid}
+  </delete>
+  
+  <!-- 分页查询 -->
+  <select id="loadPageByParams"  resultType="map" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from sys_type
+  </select>
+  <select id="loadCountByParams" resultType="int" parameterType="map" >
+    select count(*)
+    from sys_type
+  </select>
+</mapper>

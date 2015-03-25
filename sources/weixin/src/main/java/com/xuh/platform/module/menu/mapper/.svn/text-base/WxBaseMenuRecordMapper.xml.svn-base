@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuh.platform.module.menu.dao.WxBaseMenuRecordDao" >
+  <resultMap id="BaseResultMap" type="com.xuh.platform.module.menu.entity.WxBaseMenuRecord" >
+    <id column="recordid" property="recordid" jdbcType="VARCHAR" />
+    <result column="accountid" property="accountid" jdbcType="VARCHAR" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="menukey" property="menukey" jdbcType="VARCHAR" />
+    <result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    recordid, accountid,openid, menukey, addtime
+  </sql>
+    
+  <!-- 根据ID查询 -->
+  <select id="loadListByParams" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from wx_base_menurecord
+    <where>
+    	<if test="menukey!=null and menukey!=''"> and menukey = #{menukey} </if>
+    	<if test="openid!=null and openid!=''"> and openid = #{openid} </if>
+    	<if test="accountid!=null and accountid!=''"> and accountid = #{accountid} </if>
+    </where>
+  </select>
+  
+    <!-- 新增 -->
+  <insert id="save" parameterType="com.xuh.platform.module.menu.entity.WxBaseMenu" >
+    insert into wx_base_menurecord (recordid, accountid,openid, menukey, addtime)
+    values (#{recordid}, #{accountid},#{openid}, #{menukey}, #{addtime})
+  </insert>
+  
+   <!-- 更新 -->
+  <update id="update" parameterType="com.xuh.platform.module.menu.entity.WxBaseMenu" >
+    update wx_base_menurecord
+    set 
+      accountid=#{accountid},
+      openid=#{openid}, 
+      menukey=#{menukey}, 
+      addtime=#{addtime}
+     where recordid = #{recordid}
+  </update>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from wx_base_menurecord
+    where recordid = #{recordid}
+  </delete>
+  
+  
+</mapper>

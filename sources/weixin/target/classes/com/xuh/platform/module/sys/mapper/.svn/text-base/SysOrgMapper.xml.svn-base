@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuh.platform.module.sys.dao.SysOrgDao" >
+  <resultMap id="BaseResultMap" type="com.xuh.platform.module.sys.entity.SysOrg" >
+    <id column="orgid" property="orgid" jdbcType="VARCHAR" />
+    <result column="orgname" property="orgname" jdbcType="VARCHAR" />
+    <result column="orgdesc" property="orgdesc" jdbcType="VARCHAR" />
+    <result column="parentid" property="parentid" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    orgid, orgname, orgdesc, parentid
+  </sql>
+  
+    <!-- 根据ID查询 -->
+  <select id="loadById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_org
+    where orgid = #{orgid}
+  </select>
+  
+  <!-- 查询所有的结果集-->
+  <select id="loadListByParams" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from sys_org
+    <where>
+    	<if test="parentid!=null and parentid!=''">parentid = #{parentid}</if>
+    </where>
+    
+  </select>
+  
+    <!-- 新增 -->
+  <insert id="save" parameterType="com.xuh.platform.module.sys.entity.SysOrg" >
+    insert into sys_org (orgid, orgname, orgdesc,parentid)
+    values (#{orgid}, #{orgname}, #{orgdesc},#{parentid})
+  </insert>
+ 
+  <!-- 更新 -->
+  <update id="update" parameterType="com.xuh.platform.module.sys.entity.SysOrg" >
+      update sys_org
+      set orgname = #{orgname},
+      orgdesc = #{orgdesc}
+      where orgid = #{orgid}
+  </update>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from sys_org
+    where orgid = #{orgid}
+  </delete>
+  
+  <!-- 分页查询 -->
+  <select id="loadPageByParams"  resultType="map" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from sys_org
+    <where>
+    	<if test="orgname!=null and orgname!=''">orgname like #{orgname}"%"</if>
+    </where>
+    limit #{start},#{end}
+  </select>
+  <select id="loadCountByParams" resultType="int" parameterType="map" >
+    select count(*)
+    from sys_org
+     <where>
+    	<if test="orgname!=null and orgname!=''">orgname like #{orgname}"%"</if>
+    </where>
+  </select>
+  
+  <!-- 加载机构树 -->
+   <select id="loadOrgTree" resultType="map">		
+		select orgid id,orgname name,parentid pId
+		from sys_org
+  </select>
+  
+</mapper>

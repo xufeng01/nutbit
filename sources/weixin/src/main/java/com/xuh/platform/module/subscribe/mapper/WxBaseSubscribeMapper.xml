@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuh.platform.module.subscribe.dao.WxBaseSubscribeDao" >
+  <resultMap id="BaseResultMap" type="com.xuh.platform.module.subscribe.entity.WxBaseSubscribe" >
+    <id column="subscribeid" property="subscribeid" jdbcType="VARCHAR" />
+    <result column="accountid" property="accountid" jdbcType="VARCHAR" />
+    <result column="templateid" property="templateid" jdbcType="VARCHAR" />
+    <result column="msgtype" property="msgtype" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    subscribeid, accountid, templateid, msgtype, updatetime
+  </sql>
+    
+  <!-- 根据ID查询 -->
+  <select id="loadById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />
+    from wx_base_subscribe
+    where subscribeid = #{subscribeid}
+  </select>
+  
+  <!-- 查询所有的结果集-->
+  <select id="loadListByParams" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from wx_base_subscribe
+  </select>
+  
+    <!-- 新增 -->
+  <insert id="save" parameterType="com.xuh.platform.module.subscribe.entity.WxBaseSubscribe" >
+    insert into wx_base_subscribe (subscribeid, accountid, templateid, 
+      msgtype, updatetime)
+    values (#{subscribeid}, #{accountid}, #{templateid}, 
+      #{msgtype}, #{updatetime})
+  </insert>
+ 
+  <!-- 更新 -->
+  <update id="update" parameterType="com.xuh.platform.module.subscribe.entity.WxBaseSubscribe" >
+      update wx_base_subscribe
+    set 
+      accountid = #{accountid},
+      templateid = #{templateid},
+      msgtype = #{msgtype},
+      updatetime = #{updatetime}
+      where subscribeid = #{subscribeid}
+  </update>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from wx_base_subscribe
+    where subscribeid = #{subscribeid}
+  </delete>
+  
+  <!-- 分页查询 -->
+  <select id="loadPageByParams"  resultType="map" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from wx_base_subscribe
+  </select>
+  <select id="loadCountByParams" resultType="int" parameterType="map" >
+    select count(*)
+    from wx_base_subscribe
+  </select>
+  
+  <!-- 根据微信账号ID查询订阅信息 -->
+  <select id="loadByAccountid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+     select <include refid="Base_Column_List" />
+    from wx_base_subscribe
+    where accountid=#{accountid}
+    limit 0,1
+  </select>
+  
+  <!-- 查询所有的结果集-->
+  <select id="loadListMap" resultType="map"  parameterType="java.lang.String">
+    select s1.subscribeid, s1.accountid, s1.templateid,t1.templatename, s1.msgtype, s1.updatetime
+	    from wx_base_subscribe s1
+	    left join wx_base_texttemplate t1 on s1.templateid=t1.templateid
+	    where s1.msgtype='text' and s1.accountid=#{accountid}
+    union all
+    select s2.subscribeid, s2.accountid, s2.templateid,t2.templatename, s2.msgtype, s2.updatetime
+	    from wx_base_subscribe s2
+	    left join wx_base_newstemplate t2 on s2.templateid=t2.templateid
+	    where s2.msgtype='news' and s2.accountid=#{accountid}
+  </select>
+</mapper>

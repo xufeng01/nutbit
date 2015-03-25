@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/xh/!svn/ver/140/code/weixin/src/main/webapp/WEB-INF/views/module/sys
+END
+userDisplay.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/xh/!svn/ver/146/code/weixin/src/main/webapp/WEB-INF/views/module/sys/userDisplay.jsp
+END
+funcAdd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xh/!svn/ver/188/code/weixin/src/main/webapp/WEB-INF/views/module/sys/funcAdd.jsp
+END
+userAdd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xh/!svn/ver/146/code/weixin/src/main/webapp/WEB-INF/views/module/sys/userAdd.jsp
+END
+funcList.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xh/!svn/ver/188/code/weixin/src/main/webapp/WEB-INF/views/module/sys/funcList.jsp
+END
+roleDisplay.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/xh/!svn/ver/150/code/weixin/src/main/webapp/WEB-INF/views/module/sys/roleDisplay.jsp
+END
+userList.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xh/!svn/ver/159/code/weixin/src/main/webapp/WEB-INF/views/module/sys/userList.jsp
+END
+roleAdd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xh/!svn/ver/150/code/weixin/src/main/webapp/WEB-INF/views/module/sys/roleAdd.jsp
+END
+orgDisplay.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/xh/!svn/ver/146/code/weixin/src/main/webapp/WEB-INF/views/module/sys/orgDisplay.jsp
+END
+roleList.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xh/!svn/ver/159/code/weixin/src/main/webapp/WEB-INF/views/module/sys/roleList.jsp
+END
+rolefunc.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xh/!svn/ver/152/code/weixin/src/main/webapp/WEB-INF/views/module/sys/rolefunc.jsp
+END
+orgAdd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/xh/!svn/ver/159/code/weixin/src/main/webapp/WEB-INF/views/module/sys/orgAdd.jsp
+END
+userrole.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xh/!svn/ver/152/code/weixin/src/main/webapp/WEB-INF/views/module/sys/userrole.jsp
+END
+funcDisplay.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/xh/!svn/ver/150/code/weixin/src/main/webapp/WEB-INF/views/module/sys/funcDisplay.jsp
+END
+orgList.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xh/!svn/ver/159/code/weixin/src/main/webapp/WEB-INF/views/module/sys/orgList.jsp
+END

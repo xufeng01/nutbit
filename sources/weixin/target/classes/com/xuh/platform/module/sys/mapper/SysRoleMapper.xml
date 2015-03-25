@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuh.platform.module.sys.dao.SysRoleDao" >
+  <resultMap id="BaseResultMap" type="com.xuh.platform.module.sys.entity.SysRole" >
+    <id column="roleid" property="roleid" jdbcType="VARCHAR" />
+    <result column="rolename" property="rolename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    roleid, rolename
+  </sql>
+  
+     <!-- 根据ID查询 -->
+  <select id="loadById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where roleid = #{roleid}
+  </select>
+  
+  <!-- 查询所有的结果集-->
+  <select id="loadListByParams" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from sys_role
+  </select>
+  
+    <!-- 新增 -->
+  <insert id="save" parameterType="com.xuh.platform.module.sys.entity.SysRole" >
+    insert into sys_role (roleid, rolename)
+    values (#{roleid}, #{rolename})
+  </insert>
+ 
+  <!-- 更新 -->
+  <update id="update" parameterType="com.xuh.platform.module.sys.entity.SysRole" >
+       update sys_role
+    set 
+      rolename = #{rolename}
+      where roleid = #{roleid}
+  </update>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from sys_role
+    where roleid = #{roleid}
+  </delete>
+  
+  <!-- 分页查询 -->
+  <select id="loadPageByParams"  resultType="map" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from sys_role
+    <where> 
+       <if test="rolename!=null and rolename!=''"> and rolename like #{rolename}"%"</if>
+    </where>
+     limit #{start},#{end}
+  </select>
+  <select id="loadCountByParams" resultType="int" parameterType="map" >
+    select count(*)
+    from sys_role
+    <where> 
+       <if test="rolename!=null and rolename!=''"> and rolename like #{rolename}"%"</if>
+    </where>
+  </select>
+  
+     <!--根据角色查询权限-->
+  <select id="loadFuncidsByRoleid" parameterType="java.lang.String"  resultType="java.lang.String">
+    select funcid from sys_rolefunc
+    where roleid = #{roleid}
+  </select>
+  
+    <!-- 根据roleid删除分配权限-->
+  <delete id="deleteRoleFuncByRoleid" parameterType="java.lang.String" >
+    delete from sys_rolefunc
+    where roleid = #{roleid}
+  </delete>
+   <!-- 保存分配权限-->
+   <insert id="saveFunc" parameterType="map" >
+      insert into sys_rolefunc (conid, roleid, funcid) values (#{conid},#{roleid},#{funcid})
+  </insert>
+</mapper>

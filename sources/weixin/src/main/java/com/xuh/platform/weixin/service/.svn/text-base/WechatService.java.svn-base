@@ -1,0 +1,520 @@
+package com.xuh.platform.weixin.service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xuh.platform.base.constants.Constants;
+import com.xuh.platform.base.util.ResourceUtil;
+import com.xuh.platform.base.util.StringUtil;
+import com.xuh.platform.base.util.UUIDGenerator;
+import com.xuh.platform.module.account.entity.WxBaseAccount;
+import com.xuh.platform.module.account.service.WxBaseAccountService;
+import com.xuh.platform.module.menu.entity.WxBaseMenu;
+import com.xuh.platform.module.menu.entity.WxBaseMenuRecord;
+import com.xuh.platform.module.menu.service.WxBaseMenuRecordService;
+import com.xuh.platform.module.menu.service.WxBaseMenuService;
+import com.xuh.platform.module.message.constant.NewsitemConstant;
+import com.xuh.platform.module.message.entity.WxBaseAutoresponse;
+import com.xuh.platform.module.message.entity.WxBaseDefaultip;
+import com.xuh.platform.module.message.entity.WxBaseNewsitem;
+import com.xuh.platform.module.message.entity.WxBaseReceivetext;
+import com.xuh.platform.module.message.entity.WxBaseTexttemplate;
+import com.xuh.platform.module.message.service.WxBaseAutoresponseService;
+import com.xuh.platform.module.message.service.WxBaseDefaultipService;
+import com.xuh.platform.module.message.service.WxBaseNewsitemService;
+import com.xuh.platform.module.message.service.WxBaseReceivetextService;
+import com.xuh.platform.module.message.service.WxBaseTexttemplateService;
+import com.xuh.platform.module.subscribe.entity.WxBaseSubscribe;
+import com.xuh.platform.module.subscribe.service.WxBaseSubscribeService;
+import com.xuh.platform.weixin.entity.WxBaseLocation;
+import com.xuh.platform.weixin.util.BaiduUtil;
+import com.xuh.platform.weixin.util.MessageUtil;
+import com.xuh.platform.weixin.util.WeatherUtil;
+import com.xuh.platform.weixin.vo.common.BaiduPlace;
+import com.xuh.platform.weixin.vo.common.UserLocation;
+import com.xuh.platform.weixin.vo.resp.ArticleResp;
+import com.xuh.platform.weixin.vo.resp.NewsMessageResp;
+import com.xuh.platform.weixin.vo.resp.TextMessageResp;
+
+/**
+ * 微信消息处理Service
+ * @author xufeng
+ * @date 2014.8.30
+ */
+@Service("wechatService")
+public class WechatService {
+private Logger logger=Logger.getLogger(WechatService.class);
+	
+	@Autowired
+	private WxBaseAccountService wxBaseAccountService;//账号service
+	
+	@Autowired
+	private WxBaseReceivetextService wxBaseReceivetextService;//接收消息
+	
+	@Autowired
+	private WxBaseAutoresponseService wxBaseAutoresponseService;//自动回复
+	
+	@Autowired
+	private WxBaseTexttemplateService wxBaseTexttemplateService;//消息模板
+	
+	@Autowired
+	private WxBaseNewsitemService wxBaseNewsitemService;//图文项
+	
+	@Autowired
+	private WxBaseSubscribeService wxBaseSubscribeService;//订阅
+	
+	@Autowired
+	private WxBaseMenuService wxBaseMenuService;//菜单
+	
+	@Autowired
+	private WxBaseLocationService wxBaseLocationService;//用户位置
+	
+	@Autowired
+	private WxBaseMenuRecordService wxBaseMenuRecordService;//菜单记录
+	
+	@Autowired
+	private WxBaseDefaultipService wxBaseDefaultipService;//菜单记录
+	
+	/**
+	 * 微信消息处理
+	 */
+	public String coreService(HttpServletRequest request) {
+		String respMessage = null;
+		try {
+			Map<String, String> requestMap = MessageUtil.parseXml(request);// xml请求解析
+			String fromUserName = requestMap.get("FromUserName");// 发送方帐号（open_id）
+			String toUserName = requestMap.get("ToUserName");// 公众帐号
+			String msgType = requestMap.get("MsgType");// 消息类型
+			String msgId = requestMap.get("MsgId");//消息ID
+			String content = requestMap.get("Content");//消息内容
+			logger.info("------------微信客户端发送请求---------------------   |   fromUserName:"+fromUserName+"   |   ToUserName:"+toUserName+"   |   msgType:"+msgType+"   |   msgId:"+msgId+"   |   content:"+content);
+			
+			WxBaseAccount wxBaseAccount=wxBaseAccountService.loadByWxAccountid(toUserName);
+			if(wxBaseAccount==null){
+				return null;
+			}
+			String sys_accountId = wxBaseAccount.getAccountid();//根据微信原始ID,获取账号ID
+			logger.info("---------系统微信账号ID--------"+sys_accountId);
+			
+			
+			TextMessageResp textMessage = new TextMessageResp();// 默认回复此文本消息
+			textMessage.setToUserName(fromUserName);
+			textMessage.setFromUserName(toUserName);
+			textMessage.setCreateTime(new Date().getTime());
+			textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);//文本类型
+			
+			if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {//【微信触发类型】文本消息
+				logger.info("------------微信客户端发送请求------------------【微信触发类型】文本消息---");
+				respMessage = doTextResponse(sys_accountId,fromUserName,toUserName,msgId,msgType,content,textMessage);
+			}else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) {//【微信触发类型】图片消息
+				textMessage.setContent("您发送的是图片消息！");
+				respMessage = MessageUtil.textMessageToXml(textMessage);
+			}else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LOCATION)) {//【微信触发类型】地理位置消息
+				String lng = requestMap.get("Location_Y");//消息ID
+				String lat = requestMap.get("Location_X");//消息内容
+				respMessage = doLocationResponse(sys_accountId,fromUserName,toUserName,lng,lat,textMessage);
+			}else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LINK)) {//【微信触发类型】链接消息
+				textMessage.setContent("您发送的是链接消息！");
+				respMessage = MessageUtil.textMessageToXml(textMessage);
+			}else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_VOICE)) {//【微信触发类型】音频消息
+				textMessage.setContent("您发送的是音频消息！");
+				respMessage = MessageUtil.textMessageToXml(textMessage);
+			}else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {//【微信触发类型】事件推送
+				logger.info("------------微信客户端发送请求------------------【微信触发类型】事件推送---");
+				
+				String eventType = requestMap.get("Event");// 事件类型
+				if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {// 订阅
+					respMessage = doSubscribeEventResponse(sys_accountId,fromUserName,toUserName,textMessage);
+				}else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {// 取消订阅
+					// TODO 取消订阅后用户再收不到公众号发送的消息，因此不需要回复消息
+				}else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {// 自定义菜单点击事件
+					String menukey = requestMap.get("EventKey");//获得菜单key
+					respMessage = doMenuClickEvent(sys_accountId,fromUserName,toUserName,menukey,textMessage);
+				}else if(eventType.equals(MessageUtil.EVENT_TYPE_LOCATION)){
+					// TODO 获得用户地理信息
+					String Latitude= requestMap.get("Latitude");
+					String Longitude=requestMap.get("Longitude");
+					doLocationResponse(sys_accountId,fromUserName,toUserName,Longitude,Latitude,textMessage);
+					return null;
+				}
+			}
+			
+			//默认提示
+			if(StringUtil.isEmpty(respMessage)){
+				respMessage = getDefaultTip(sys_accountId,fromUserName,toUserName,textMessage);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		logger.info("------------向微信客户端,返回内容--------"+respMessage);
+		return respMessage;
+	}
+
+
+	/**
+	 *  针对文本消息
+	 * @param sys_accountId
+	 * @param textMessage
+	 * @param msgId
+	 * @param msgType
+	 * @param content
+	 * @return
+	 * @throws Exception
+	 */
+	private String doTextResponse(String sys_accountId,String fromUserName,String toUserName,String msgId,String msgType,String content,TextMessageResp textMessage) throws Exception{
+		
+		WxBaseReceivetext receivetext = new WxBaseReceivetext();// 封装接收消息
+		receivetext.setTextcontent(content);
+		receivetext.setAddtime(new Date());
+		receivetext.setFromusername(fromUserName);
+		receivetext.setTousername(toUserName);
+		receivetext.setMsgid(msgId);
+		receivetext.setMsgtype(msgType);
+		receivetext.setAccountid(sys_accountId);
+		receivetext.setTextid(UUIDGenerator.generate());
+		wxBaseReceivetextService.save(receivetext);//保持接收消息
+		
+		// 判断关键字信息中是否管理该文本内容。有的话优先采用数据库中的回复
+		WxBaseAutoresponse autoResponse = wxBaseAutoresponseService.loadByAccountid(sys_accountId,content);// 获取关键字管理的列表，匹配后返回信息
+		if (autoResponse != null&&StringUtil.isNotEmpty(autoResponse.getTemplateid())) {
+			logger.info("--------采用数据库中的回复!-------");
+			String resMsgType = autoResponse.getMsgtype();
+			if (MessageUtil.REQ_MESSAGE_TYPE_TEXT.equals(resMsgType)) {//文本类型
+				return createTextMessage(autoResponse.getTemplateid(),textMessage);//生成文本消息
+			} else if (MessageUtil.RESP_MESSAGE_TYPE_NEWS.equals(resMsgType)) {//图片类型
+				return createNewsMessage(autoResponse.getTemplateid(),fromUserName,toUserName);//生成图片消息
+			}
+		} else{
+			WxBaseMenuRecord record=wxBaseMenuRecordService.loadRecord(sys_accountId,fromUserName);
+			if(record!=null){
+				if(Constants.MENU_KEY_FOR_TRANSLATE.equals(record.getMenukey())){
+					return doTranslateMessage(content,textMessage);
+				}else if(Constants.MENU_KEY_FOR_WEATHER.equals(record.getMenukey())){
+					return doWeatherMessage(content,fromUserName,toUserName,textMessage);
+				}else if(Constants.MENU_KEY_FOR_NEAR.equals(record.getMenukey())){
+					return doNearQuery(sys_accountId,fromUserName,toUserName,content,textMessage);
+				}
+			}
+			
+				
+		}
+		return null;
+	}
+	
+
+	/**
+	 * 处理位置
+	 * @param sys_accountId
+	 * @param textMessage
+	 * @param lng
+	 * @param lat
+	 * @return
+	 */
+	private String doLocationResponse(String sys_accountId,String fromUserName,String toUserName, String lng, String lat,TextMessageResp textMessage)  throws Exception{
+		
+		UserLocation userLocation=BaiduUtil.convertCoord(lng, lat);//转换经纬度
+		
+		WxBaseLocation wxBaseLocation= wxBaseLocationService.loadByAccountid(sys_accountId, fromUserName);
+		if(wxBaseLocation!=null){//更新
+			wxBaseLocation.setLng(lng);
+			wxBaseLocation.setLat(lat);
+			wxBaseLocation.setBd09Lng(userLocation.getBd09Lng());
+			wxBaseLocation.setBd09Lat(userLocation.getBd09Lat());
+			wxBaseLocation.setAddtime(new Date());
+			wxBaseLocationService.update(wxBaseLocation);
+		}else{//新增
+			wxBaseLocation=new WxBaseLocation();
+			wxBaseLocation.setLocationid(UUIDGenerator.generate());
+			wxBaseLocation.setAccountid(sys_accountId);
+			wxBaseLocation.setOpenid(fromUserName);
+			wxBaseLocation.setLng(lng);
+			wxBaseLocation.setLat(lat);
+			wxBaseLocation.setBd09Lng(userLocation.getBd09Lng());
+			wxBaseLocation.setBd09Lat(userLocation.getBd09Lat());
+			wxBaseLocation.setAddtime(new Date());
+			wxBaseLocationService.save(wxBaseLocation);
+		}
+		StringBuffer sb=new StringBuffer();
+		sb.append("[愉快]").append("成功接收到您的位置！\n");
+		sb.append("您可以输入搜索关键词获取周边信息了，例如：\n");
+		sb.append("         附近ATM\n");
+		sb.append("         附近KTV\n");
+		sb.append("         附近厕所\n");
+		sb.append("必须已“附近两个字开头！ ”");
+		textMessage.setContent(sb.toString());
+		return MessageUtil.textMessageToXml(textMessage);
+	}
+	
+	/**
+	 * 位置使用说明
+	 * @return
+	 */
+	private String getLocationUsage(){
+		StringBuffer sb=new StringBuffer();
+		sb.append("周边搜索使用说明\n");
+		sb.append("1)发送地理位置\n");
+		sb.append("点击窗口地步的“+”按钮，选择“位置”，点“发送”\n\n");
+		sb.append("2)指定关键词搜索\n");
+		sb.append("格式：附近+关键词\n例如：附近ATM、附近KTV、附近厕所");
+		return sb.toString();
+	}
+	
+	
+	/**
+	 * 附近搜索
+	 * @param content
+	 * @param textMessage
+	 * @return
+	 */
+	private String doNearQuery(String sys_accountId,String fromUserName,String toUserName,String content,TextMessageResp textMessage) {
+		logger.info("---------------进入附近搜索-----------------");
+		String respMessage = null;
+		String keyWord = content.trim();
+		if ("".equals(keyWord)) {
+			textMessage.setContent(getLocationUsage());
+			respMessage = MessageUtil.textMessageToXml(textMessage);
+		} else {
+			try {
+				
+				WxBaseLocation wxBaseLocation=wxBaseLocationService.loadByAccountid(sys_accountId, fromUserName);
+				if(wxBaseLocation==null){//用户位置不存在
+					textMessage.setContent(getLocationUsage());
+					return MessageUtil.textMessageToXml(textMessage);
+				}
+				
+				List<BaiduPlace> places= BaiduUtil.searchPlace(keyWord, wxBaseLocation.getBd09Lng(), wxBaseLocation.getBd09Lat());
+				if(places==null||places.size()==0){//未搜索到
+					textMessage.setContent("/难过,您发送的位置附近未搜索到"+keyWord+"信息！");
+					return MessageUtil.textMessageToXml(textMessage);
+				}
+				
+				String domain=ResourceUtil.getConfigByName("domain");
+				//图文项
+				List<ArticleResp> articleList = new ArrayList<ArticleResp>();
+				for(int i=0;i<places.size();i++){
+					BaiduPlace place=places.get(i);
+					ArticleResp article=new ArticleResp();
+					article.setTitle(place.getName()+"(电话:"+place.getTelephone()+")\n距离约"+place.getDistance()+"米");
+					article.setUrl("");
+					if(i==0){
+						article.setPicUrl(domain+"images/posiearch.png");
+					}else{
+						article.setPicUrl(domain+"images/navi.png");
+					}
+					articleList.add(article);
+				}
+				
+				// 创建图文消息
+				NewsMessageResp newsMessage = new NewsMessageResp();
+				newsMessage.setToUserName(fromUserName);
+				newsMessage.setFromUserName(toUserName);
+				newsMessage.setCreateTime(new Date().getTime());
+				newsMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
+				newsMessage.setArticleCount(articleList.size());
+				newsMessage.setArticles(articleList);
+				respMessage = MessageUtil.newsMessageToXml(newsMessage);
+			} catch (Exception e) {
+				e.printStackTrace();
+				textMessage.setContent("/难过,您发送的位置附近未搜索到"+keyWord+"信息！");
+				return MessageUtil.textMessageToXml(textMessage);
+			}
+		}
+		return respMessage;
+	}
+
+	
+	/**
+	 * 订阅
+	 * @param sys_accountId
+	 * @param textMessage
+	 * @return
+	 * @throws Exception
+	 */
+	 private String doSubscribeEventResponse(String sys_accountId,String fromUserName,String toUserName,TextMessageResp textMessage) throws Exception{
+		WxBaseSubscribe subscribe = wxBaseSubscribeService.loadByAccountid(sys_accountId);//获得订阅信息
+		if(subscribe!=null&&StringUtil.isNotEmpty(subscribe.getTemplateid())){
+			String type = subscribe.getMsgtype();
+			if (MessageUtil.REQ_MESSAGE_TYPE_TEXT.equals(type)) {//文本类型
+				return createTextMessage(subscribe.getTemplateid(),textMessage);//生成文本消息
+			} else if (MessageUtil.RESP_MESSAGE_TYPE_NEWS.equals(type)) {//图文消息
+				return createNewsMessage(subscribe.getTemplateid(),fromUserName,toUserName);//生成图片消息
+			}
+		}
+		return null;
+	}
+	
+	 /**
+	  * 菜单事件(click)
+	  * @param sys_accountId
+	  * @param textMessage
+	  * @param menukey
+	  * @return
+	  * @throws Exception
+	  */
+	private String doMenuClickEvent(String sys_accountId,String fromUserName,String toUserName,String menukey,TextMessageResp textMessage) throws Exception{
+		
+		WxBaseMenu menu = wxBaseMenuService.loadByAccountid(sys_accountId, menukey);//获得菜单信息
+		wxBaseMenuRecordService.save(sys_accountId,fromUserName,menukey);
+		if (menu != null&& StringUtil.isNotEmpty(menu.getTemplateid())) {
+			String type = menu.getMsgtype();//消息类型
+			if (MessageUtil.REQ_MESSAGE_TYPE_TEXT.equals(type)) {//文本
+				return createTextMessage(menu.getTemplateid(),textMessage);//生成文本消息
+			} else if (MessageUtil.RESP_MESSAGE_TYPE_NEWS.equals(type)) {
+				return createNewsMessage(menu.getTemplateid(),fromUserName,toUserName);//生成图片消息
+			} else if ("expand".equals(type)) {//扩展
+				//TODO 扩展类型
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * 生成文本消息响应内容
+	 * @return
+	 */
+	private String createTextMessage(String templateid,TextMessageResp textMessage) throws Exception{
+		WxBaseTexttemplate textTemplate = wxBaseTexttemplateService.loadById(templateid);//获得模板内容
+		String content = textTemplate.getTemplatecontent();
+		textMessage.setContent(content);
+		return MessageUtil.textMessageToXml(textMessage);
+	}
+	
+	/**
+	 * 生成图文消息响应内容
+	 * @return
+	 */
+	private String createNewsMessage(String templateid,String fromUserName,String toUserName) throws Exception{
+		Map<String,Object> params=new HashMap<String, Object>();
+		params.put("templateid", templateid);
+		List<WxBaseNewsitem> newsLists = wxBaseNewsitemService.loadListByParams(params);//获得所有的图文项
+		List<ArticleResp> articleList = new ArrayList<ArticleResp>();
+		ResourceBundle bundler = ResourceBundle.getBundle("sysConfig");//加载系统配置文件
+		for (WxBaseNewsitem news : newsLists) {
+			ArticleResp article = new ArticleResp();
+			article.setTitle(news.getTitle());
+			article.setPicUrl(bundler.getString("domain") + "rest/nofilter/newsitem/pic/"+ news.getItemid());
+			String url = "";
+			if (NewsitemConstant.NEWSITEM_TYPE_IN.equals(news.getItemtype())) {
+				//详细界面内容暂时未开发
+				url = bundler.getString("domain")+ "rest/nofilter/newsitem/content/"+ news.getItemid();//详细内容界面
+			} else {
+				url = news.getUrl();//调用外部链接
+			}
+			article.setUrl(url);
+			article.setDescription(news.getDescription());
+			articleList.add(article);
+		}
+		NewsMessageResp newsResp = new NewsMessageResp();
+		newsResp.setCreateTime(new Date().getTime());
+		newsResp.setFromUserName(toUserName);
+		newsResp.setToUserName(fromUserName);
+		newsResp.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
+		newsResp.setArticleCount(newsLists.size());
+		newsResp.setArticles(articleList);
+		return MessageUtil.newsMessageToXml(newsResp);
+	}
+	
+	/**
+	 * 翻译
+	 * @return
+	 */
+	private String doTranslateMessage(String content,TextMessageResp textMessage){
+		logger.info("---------------进入翻译-----------------");
+		String keyWord = content.trim();
+		String returnMessage = null;
+		if ("".equals(keyWord)) {
+			returnMessage = BaiduUtil.getTranslateUsage();
+		} else {
+			returnMessage = BaiduUtil.translate(keyWord);
+		}
+		textMessage.setContent(returnMessage);
+		return MessageUtil.textMessageToXml(textMessage);
+	}
+	
+	/**
+	 * 获得天气
+	 * @param content
+	 * @param textMessage
+	 * @return
+	 */
+	private String doWeatherMessage(String content,String fromUserName,String toUserName,TextMessageResp textMessage){
+		logger.info("---------------进入天气-----------------");
+		String respMessage = null;
+		String keyWord = content.trim();
+		if ("".equals(keyWord)) {
+			StringBuffer buffer = new StringBuffer();
+			// 接收用户发送的文本消息内容
+			buffer.append("发送城市，例如'上海'").append("\n");
+			textMessage.setContent(buffer.toString());
+			respMessage = MessageUtil.textMessageToXml(textMessage);
+		} else {
+			try {
+				Map<String,String> map=WeatherUtil.getWeatherByCity(keyWord);
+				
+				List<ArticleResp> articleList = new ArrayList<ArticleResp>();
+				// 创建图文消息
+				NewsMessageResp newsMessage = new NewsMessageResp();
+				newsMessage.setToUserName(fromUserName);
+				newsMessage.setFromUserName(toUserName);
+				newsMessage.setCreateTime(new Date().getTime());
+				newsMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
+				
+				ArticleResp article1 = new ArticleResp();
+				article1.setTitle(map.get("currentCity")+"天气预报");
+				article1.setDescription("");
+				article1.setPicUrl("");
+				article1.setUrl("");
+				articleList.add(article1);
+				
+				for(int i=0;i<4;i++){
+					ArticleResp article2 = new ArticleResp();
+					article2.setTitle(map.get("date"+i)+" "+map.get("weather"+i)+" "+map.get("wind"+i)+" "+map.get("temperature"+i));
+					article2.setDescription("");
+					article2.setPicUrl(map.get("dayPictureUrl"+i));
+					article2.setUrl("");
+					articleList.add(article2);
+				}
+				newsMessage.setArticleCount(articleList.size());
+				newsMessage.setArticles(articleList);
+				respMessage = MessageUtil.newsMessageToXml(newsMessage);
+			} catch (Exception e) {
+				e.printStackTrace();
+				StringBuffer buffer = new StringBuffer();
+				// 接收用户发送的文本消息内容
+				buffer.append("发送城市，例如'天气上海'").append("\n");
+				textMessage.setContent(buffer.toString());
+				respMessage = MessageUtil.textMessageToXml(textMessage);
+				return respMessage;
+			}
+		}
+		return respMessage;
+	}
+	
+	/**
+	 * 默认提醒
+	 * @return
+	 */
+	private  String getDefaultTip(String sys_accountId,String fromUserName,String toUserName,TextMessageResp textMessage) throws Exception{
+		WxBaseDefaultip subscribe = wxBaseDefaultipService.loadByAccountid(sys_accountId);//获得订阅信息
+		if(subscribe!=null&&StringUtil.isNotEmpty(subscribe.getTemplateid())){
+			String type = subscribe.getMsgtype();
+			if (MessageUtil.REQ_MESSAGE_TYPE_TEXT.equals(type)) {//文本类型
+				return createTextMessage(subscribe.getTemplateid(),textMessage);//生成文本消息
+			} else if (MessageUtil.RESP_MESSAGE_TYPE_NEWS.equals(type)) {//图文消息
+				return createNewsMessage(subscribe.getTemplateid(),fromUserName,toUserName);//生成图片消息
+			}
+		}
+		return null;
+	}
+}

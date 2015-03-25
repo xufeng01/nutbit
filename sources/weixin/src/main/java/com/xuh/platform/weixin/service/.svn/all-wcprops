@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/xh/!svn/ver/219/code/weixin/src/main/java/com/xuh/platform/weixin/service
+END
+WxBaseLocationService.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/xh/!svn/ver/220/code/weixin/src/main/java/com/xuh/platform/weixin/service/WxBaseLocationService.java
+END
+WxBaseTokenService.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/xh/!svn/ver/220/code/weixin/src/main/java/com/xuh/platform/weixin/service/WxBaseTokenService.java
+END
+WechatService.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/xh/!svn/ver/220/code/weixin/src/main/java/com/xuh/platform/weixin/service/WechatService.java
+END

@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/xh/!svn/ver/139/code/weixin/src/main/java/com/xuh/platform/module/sys/dao
+END
+SysTypegroupDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/xh/!svn/ver/72/code/weixin/src/main/java/com/xuh/platform/module/sys/dao/SysTypegroupDao.java
+END
+SysUserDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/xh/!svn/ver/152/code/weixin/src/main/java/com/xuh/platform/module/sys/dao/SysUserDao.java
+END
+SysLogDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/xh/!svn/ver/72/code/weixin/src/main/java/com/xuh/platform/module/sys/dao/SysLogDao.java
+END
+SysRoleDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/xh/!svn/ver/152/code/weixin/src/main/java/com/xuh/platform/module/sys/dao/SysRoleDao.java
+END
+SysTypeDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/xh/!svn/ver/72/code/weixin/src/main/java/com/xuh/platform/module/sys/dao/SysTypeDao.java
+END
+SysConfigDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/xh/!svn/ver/72/code/weixin/src/main/java/com/xuh/platform/module/sys/dao/SysConfigDao.java
+END
+SysOrgDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/xh/!svn/ver/139/code/weixin/src/main/java/com/xuh/platform/module/sys/dao/SysOrgDao.java
+END
+SysFuncDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/xh/!svn/ver/187/code/weixin/src/main/java/com/xuh/platform/module/sys/dao/SysFuncDao.java
+END

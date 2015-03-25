@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/xh/!svn/ver/159/code/weixin/src/main/webapp/WEB-INF/views/module/message
+END
+newstemplateList.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/xh/!svn/ver/165/code/weixin/src/main/webapp/WEB-INF/views/module/message/newstemplateList.jsp
+END
+newsitemAdd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/xh/!svn/ver/190/code/weixin/src/main/webapp/WEB-INF/views/module/message/newsitemAdd.jsp
+END
+defaultipAdd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/xh/!svn/ver/208/code/weixin/src/main/webapp/WEB-INF/views/module/message/defaultipAdd.jsp
+END
+newsitemContent.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/xh/!svn/ver/205/code/weixin/src/main/webapp/WEB-INF/views/module/message/newsitemContent.jsp
+END
+texttemplateAdd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/xh/!svn/ver/159/code/weixin/src/main/webapp/WEB-INF/views/module/message/texttemplateAdd.jsp
+END
+defaultipList.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/xh/!svn/ver/197/code/weixin/src/main/webapp/WEB-INF/views/module/message/defaultipList.jsp
+END
+texttemplateList.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/xh/!svn/ver/159/code/weixin/src/main/webapp/WEB-INF/views/module/message/texttemplateList.jsp
+END
+autoresponseAdd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/xh/!svn/ver/182/code/weixin/src/main/webapp/WEB-INF/views/module/message/autoresponseAdd.jsp
+END
+newstemplateAdd.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/xh/!svn/ver/165/code/weixin/src/main/webapp/WEB-INF/views/module/message/newstemplateAdd.jsp
+END
+autoresponseList.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/xh/!svn/ver/182/code/weixin/src/main/webapp/WEB-INF/views/module/message/autoresponseList.jsp
+END
+receivetextList.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/xh/!svn/ver/197/code/weixin/src/main/webapp/WEB-INF/views/module/message/receivetextList.jsp
+END

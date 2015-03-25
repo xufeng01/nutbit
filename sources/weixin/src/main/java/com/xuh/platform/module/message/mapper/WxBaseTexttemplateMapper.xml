@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuh.platform.module.message.dao.WxBaseTexttemplateDao">
+  <resultMap id="BaseResultMap" type="com.xuh.platform.module.message.entity.WxBaseTexttemplate">
+    <id column="templateid" jdbcType="VARCHAR" property="templateid" />
+    <result column="accountid" jdbcType="VARCHAR" property="accountid" />
+    <result column="templatename" jdbcType="VARCHAR" property="templatename" />
+    <result column="templatecontent" jdbcType="VARCHAR" property="templatecontent" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+ 
+  <sql id="Base_Column_List">
+    templateid, accountid, templatename, templatecontent, updatetime
+  </sql>
+  
+   <!-- 根据ID查询 -->
+  <select id="loadById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />
+    from wx_base_texttemplate
+    where templateid = #{templateid}
+  </select>
+  
+  <!-- 查询所有的结果集-->
+  <select id="loadListByParams" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from wx_base_texttemplate
+  </select>
+  
+    <!-- 新增 -->
+  <insert id="save" parameterType="com.xuh.platform.module.message.entity.WxBaseTexttemplate" >
+    insert into wx_base_texttemplate (templateid, accountid, templatename, 
+      templatecontent, updatetime)
+    values (#{templateid}, #{accountid}, #{templatename}, 
+      #{templatecontent}, #{updatetime})
+  </insert>
+ 
+  <!-- 更新 -->
+  <update id="update" parameterType="com.xuh.platform.module.message.entity.WxBaseTexttemplate" >
+    update wx_base_texttemplate
+    set 
+      accountid = #{accountid},
+      templatename = #{templatename},
+      templatecontent = #{templatecontent},
+      updatetime = #{updatetime}
+     where templateid = #{templateid}
+  </update>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from wx_base_texttemplate
+    where templateid = #{templateid}
+  </delete>
+  
+  <!-- 分页查询 -->
+  <select id="loadPageByParams"  resultType="map" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from wx_base_texttemplate
+    <where>
+    	<if test="accountid!=null and accountid!=''"> and accountid=#{accountid}</if>
+    	<if test="templatename!=null and templatename!=''"> and templatename like #{templatename}"%"</if>
+    </where>
+    order by updatetime desc
+    limit #{start},#{end}
+  </select>
+  <select id="loadCountByParams" resultType="int" parameterType="map" >
+    select count(*)
+    from wx_base_texttemplate
+    <where>
+    	<if test="accountid!=null and accountid!=''"> and accountid=#{accountid}</if>
+    	<if test="templatename!=null and templatename!=''"> and templatename=#{templatename}</if>
+    </where>
+  </select>
+  
+    <!-- 查询所有-用于下拉框-->
+  <select id="loadTemplate" parameterType="string" resultType="map">
+    select templateid as code, templatename as name
+    from wx_base_texttemplate
+    where accountid=#{accountid}
+  </select>
+</mapper>

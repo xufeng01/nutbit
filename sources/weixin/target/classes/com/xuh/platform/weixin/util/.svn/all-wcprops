@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/xh/!svn/ver/103/code/weixin/src/main/java/com/xuh/platform/weixin/util
+END
+WeixinUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/xh/!svn/ver/225/code/weixin/src/main/java/com/xuh/platform/weixin/util/WeixinUtil.java
+END
+MessageUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/xh/!svn/ver/199/code/weixin/src/main/java/com/xuh/platform/weixin/util/MessageUtil.java
+END
+BaiduUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/xh/!svn/ver/204/code/weixin/src/main/java/com/xuh/platform/weixin/util/BaiduUtil.java
+END
+MyX509TrustManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/xh/!svn/ver/190/code/weixin/src/main/java/com/xuh/platform/weixin/util/MyX509TrustManager.java
+END
+WeatherUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/xh/!svn/ver/97/code/weixin/src/main/java/com/xuh/platform/weixin/util/WeatherUtil.java
+END
+SignUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/xh/!svn/ver/59/code/weixin/src/main/java/com/xuh/platform/weixin/util/SignUtil.java
+END

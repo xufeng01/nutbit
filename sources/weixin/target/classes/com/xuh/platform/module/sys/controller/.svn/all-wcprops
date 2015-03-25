@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xh/!svn/ver/139/code/weixin/src/main/java/com/xuh/platform/module/sys/controller
+END
+SysUserController.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/xh/!svn/ver/152/code/weixin/src/main/java/com/xuh/platform/module/sys/controller/SysUserController.java
+END
+SysRoleController.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/xh/!svn/ver/152/code/weixin/src/main/java/com/xuh/platform/module/sys/controller/SysRoleController.java
+END
+SysOrgController.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/xh/!svn/ver/150/code/weixin/src/main/java/com/xuh/platform/module/sys/controller/SysOrgController.java
+END
+SysFuncController.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/xh/!svn/ver/189/code/weixin/src/main/java/com/xuh/platform/module/sys/controller/SysFuncController.java
+END

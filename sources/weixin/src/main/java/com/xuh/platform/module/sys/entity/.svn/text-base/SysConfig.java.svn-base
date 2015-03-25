@@ -1,0 +1,79 @@
+package com.xuh.platform.module.sys.entity;
+
+import java.io.Serializable;
+
+/**
+ * 系统配置PO
+ * @author xufeng
+ * @date 2014.8.29
+ */
+public class SysConfig implements Serializable{
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 配置ID
+	 */
+	private String configid;
+
+	/**
+	 * 配置CODE
+	 */
+    private String configcode;
+
+    /**
+     * 配置名称
+     */
+    private String configname;
+
+    /**
+     * 配置值
+     */
+    private String configvalue;
+
+    /**
+     * 配置描述
+     */
+    private String configdesc;
+
+	public String getConfigid() {
+		return configid;
+	}
+
+	public void setConfigid(String configid) {
+		this.configid = configid;
+	}
+
+	public String getConfigcode() {
+		return configcode;
+	}
+
+	public void setConfigcode(String configcode) {
+		this.configcode = configcode;
+	}
+
+	public String getConfigname() {
+		return configname;
+	}
+
+	public void setConfigname(String configname) {
+		this.configname = configname;
+	}
+
+	public String getConfigvalue() {
+		return configvalue;
+	}
+
+	public void setConfigvalue(String configvalue) {
+		this.configvalue = configvalue;
+	}
+
+	public String getConfigdesc() {
+		return configdesc;
+	}
+
+	public void setConfigdesc(String configdesc) {
+		this.configdesc = configdesc;
+	}
+
+    
+}

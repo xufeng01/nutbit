@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuh.platform.module.account.dao.WxBaseAccountDao" >
+  <resultMap id="BaseResultMap" type="com.xuh.platform.module.account.entity.WxBaseAccount" >
+    <id column="accountid" property="accountid" jdbcType="VARCHAR" />
+    <result column="accountname" property="accountname" jdbcType="VARCHAR" />
+    <result column="accounttoken" property="accounttoken" jdbcType="VARCHAR" />
+    <result column="accountnumber" property="accountnumber" jdbcType="VARCHAR" />
+    <result column="wx_accountid" property="wxAccountid" jdbcType="VARCHAR" />
+    <result column="accounttype" property="accounttype" jdbcType="CHAR" />
+    <result column="accountemail" property="accountemail" jdbcType="VARCHAR" />
+    <result column="accountdesc" property="accountdesc" jdbcType="VARCHAR" />
+    <result column="accountappid" property="accountappid" jdbcType="VARCHAR" />
+    <result column="accountappsecret" property="accountappsecret" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    accountid, accountname, accounttoken, accountnumber, wx_accountid, accounttype, accountemail, 
+    accountdesc, accountappid, accountappsecret, userid, updatetime
+  </sql>
+  
+  <!-- 根据ID查询 -->
+  <select id="loadById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />
+    from wx_base_account
+    where accountid = #{accountid}
+  </select>
+   
+   <!-- 查询所有的结果集-->
+  <select id="loadListByParams" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from wx_base_account
+  </select>
+  
+  <!-- 新增 -->
+  <insert id="save" parameterType="com.xuh.platform.module.account.entity.WxBaseAccount" >
+    insert into wx_base_account (accountid, accountname, accounttoken, 
+      accountnumber, wx_accountid, accounttype, 
+      accountemail, accountdesc, accountappid, 
+      accountappsecret, userid, updatetime
+      )
+    values (#{accountid}, #{accountname}, #{accounttoken}, 
+      #{accountnumber}, #{wxAccountid}, #{accounttype}, 
+      #{accountemail}, #{accountdesc}, #{accountappid}, 
+      #{accountappsecret}, #{userid}, #{updatetime}
+      )
+  </insert>
+ 
+  <!-- 更新 -->
+  <update id="update" parameterType="com.xuh.platform.module.account.entity.WxBaseAccount" >
+    update wx_base_account
+    set 
+      accountname = #{accountname},
+      accounttoken = #{accounttoken},
+      accountnumber = #{accountnumber},
+      wx_accountid = #{wxAccountid},
+      accounttype = #{accounttype},
+      accountemail = #{accountemail},
+      accountdesc = #{accountdesc},
+      accountappid = #{accountappid},
+      accountappsecret = #{accountappsecret},
+      userid = #{userid},
+      updatetime = #{updatetime}
+      where accountid = #{accountid}
+  </update>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from wx_base_account
+    where accountid = #{accountid}
+  </delete>
+  
+  <!-- 分页查询 -->
+  <select id="loadPageByParams"  resultType="map" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from wx_base_account
+  </select>
+  <select id="loadCountByParams" resultType="int" parameterType="map" >
+    select count(*)
+    from wx_base_account
+  </select>
+  
+  
+    <!-- 根据原始微信ID获得账号信息-->
+  <select id="loadByWxAccountid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />
+    from wx_base_account
+    where wx_accountid = #{wxAccountid}
+  </select>
+  
+     <!-- 根据系统用户ID获得微信账号信息-->
+  <select id="loadByUserid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />
+    from wx_base_account
+    where userid = #{userid}
+  </select>
+  
+</mapper>

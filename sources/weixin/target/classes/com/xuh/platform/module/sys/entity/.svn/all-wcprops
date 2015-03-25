@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/xh/!svn/ver/72/code/weixin/src/main/java/com/xuh/platform/module/sys/entity
+END
+SysLog.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/xh/!svn/ver/72/code/weixin/src/main/java/com/xuh/platform/module/sys/entity/SysLog.java
+END
+SysRole.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/xh/!svn/ver/72/code/weixin/src/main/java/com/xuh/platform/module/sys/entity/SysRole.java
+END
+SysType.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/xh/!svn/ver/72/code/weixin/src/main/java/com/xuh/platform/module/sys/entity/SysType.java
+END
+SysConfig.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/xh/!svn/ver/72/code/weixin/src/main/java/com/xuh/platform/module/sys/entity/SysConfig.java
+END
+SysOrg.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/xh/!svn/ver/72/code/weixin/src/main/java/com/xuh/platform/module/sys/entity/SysOrg.java
+END
+SysFunc.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/xh/!svn/ver/72/code/weixin/src/main/java/com/xuh/platform/module/sys/entity/SysFunc.java
+END
+SysTypegroup.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/xh/!svn/ver/72/code/weixin/src/main/java/com/xuh/platform/module/sys/entity/SysTypegroup.java
+END
+SysUser.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/xh/!svn/ver/72/code/weixin/src/main/java/com/xuh/platform/module/sys/entity/SysUser.java
+END

@@ -1,0 +1,16 @@
+package com.xuh.platform.module.sys.dao;
+
+import org.springframework.stereotype.Repository;
+
+import com.xuh.platform.base.dao.BaseDao;
+import com.xuh.platform.module.sys.entity.SysTypegroup;
+
+/**
+ * 字典类型组Dao
+ * @author xufeng
+ * @date 2014.8.29
+ */
+@Repository
+public interface SysTypegroupDao extends BaseDao<SysTypegroup, String>{
+    
+}

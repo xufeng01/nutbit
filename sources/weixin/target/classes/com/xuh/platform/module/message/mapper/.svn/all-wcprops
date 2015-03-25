@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xh/!svn/ver/136/code/weixin/src/main/java/com/xuh/platform/module/message/mapper
+END
+WxBaseAutoresponseMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/xh/!svn/ver/180/code/weixin/src/main/java/com/xuh/platform/module/message/mapper/WxBaseAutoresponseMapper.xml
+END
+WxBaseReceivetextMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/xh/!svn/ver/197/code/weixin/src/main/java/com/xuh/platform/module/message/mapper/WxBaseReceivetextMapper.xml
+END
+WxBaseNewstemplateMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/xh/!svn/ver/176/code/weixin/src/main/java/com/xuh/platform/module/message/mapper/WxBaseNewstemplateMapper.xml
+END
+WxBaseNewsitemMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/xh/!svn/ver/171/code/weixin/src/main/java/com/xuh/platform/module/message/mapper/WxBaseNewsitemMapper.xml
+END
+WxBaseDefaultipMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/xh/!svn/ver/197/code/weixin/src/main/java/com/xuh/platform/module/message/mapper/WxBaseDefaultipMapper.xml
+END
+WxBaseTexttemplateMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/xh/!svn/ver/176/code/weixin/src/main/java/com/xuh/platform/module/message/mapper/WxBaseTexttemplateMapper.xml
+END

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+						http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+						http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-3.1.xsd
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+	
+	<!-- 自动扫描包 -->	 
+	<context:component-scan base-package="com.xuh.platform" />
+	<context:annotation-config/>
+	<mvc:annotation-driven />
+	<!-- 注解 -->
+    
+	<!-- 加载配置文件 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:dbconfig.properties</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders" value="true" /> 
+	</bean>
+	
+	<!-- JNDI获取数据源(使用c3p0连接池) -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+  		<property name="driverClass" value="${jdbc.driver}" />
+  		<property name="jdbcUrl" value="${jdbc.url}" />
+   		<property name="user" value="${jdbc.username}" />
+   		<property name="password" value="${jdbc.password}" />
+   		
+   		<property name="minPoolSize" value="0" />
+		<property name="maxPoolSize" value="15" />
+		<property name="maxIdleTime" value="1800" />
+		<!-- 当连接池耗尽时候，一次获得连接数-->
+		<property name="acquireIncrement" value="5" />
+		<property name="maxStatements" value="0" />
+		<!-- 每隔120秒检查连接池里的空闲连接 ，单位是秒-->
+		<property name="idleConnectionTestPeriod" value="120" />
+		<!-- 当连接失效时，获得连接的次数，0为无穷次（重连）-->
+		<property name="acquireRetryAttempts" value="604800" />
+   	</bean>
+   	
+   	 <!-- 事务管理 start -->
+   	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+   		<property name="dataSource" ref="dataSource" />
+   	</bean>  
+		
+  	<bean id="transactionAttribute"
+		class="org.springframework.transaction.interceptor.DefaultTransactionAttribute">
+		<property name="propagationBehaviorName">
+			<value>PROPAGATION_REQUIRES_NEW</value>
+		</property>
+		<property name="isolationLevelName">
+			<value>ISOLATION_REPEATABLE_READ</value>
+		</property>
+		<property name="readOnly">
+			<value>false</value>
+		</property>
+		<property name="timeout">
+			<value>5</value>
+		</property>
+	</bean>    
+	<bean id="attributeSource"
+		class="org.springframework.transaction.interceptor.MatchAlwaysTransactionAttributeSource">
+		<property name="transactionAttribute">
+			<ref bean="transactionAttribute" />
+		</property>
+	</bean> 
+	
+    <!-- 事物切面 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="insert*" propagation="REQUIRED" rollback-for="Exception"/>
+			<tx:method name="del*" propagation="REQUIRED" rollback-for="Exception"/>
+			<tx:method name="modify*" propagation="REQUIRED" rollback-for="Exception"/>
+			<tx:method name="edit*" propagation="REQUIRED" rollback-for="Exception"/>			
+			<tx:method name="update*" propagation="REQUIRED" rollback-for="Exception"/>	
+			<tx:method name="save*" propagation="REQUIRED" rollback-for="Exception"/>		
+			<tx:method name="*" read-only="true"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 配置默认类的哪些方法参与事务 -->	 
+	<aop:config>
+		<aop:pointcut id="allManagerMethod" expression="execution(public  * com.xuh.platform..*.service.impl.*(..))"/>
+		<aop:advisor pointcut-ref="allManagerMethod" advice-ref="txAdvice"/>
+	</aop:config>	
+	
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+  <!-- 事务管理 end -->
+
+	<!-- mybatis -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <property name="mapperLocations" value="classpath*:com/xuh/platform/**/mapper/*Mapper.xml"></property>
+    </bean>
+    
+   	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.xuh.platform.**.dao" />
+    </bean>
+    
+	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	
+	   <!-- ApplicationContext上下文 -->
+	<bean class="com.xuh.platform.base.util.SpringUtil"></bean>
+	
+
+</beans>

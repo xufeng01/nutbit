@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuh.platform.module.message.dao.WxBaseAutoresponseDao">
+  <resultMap id="BaseResultMap" type="com.xuh.platform.module.message.entity.WxBaseAutoresponse">
+    <id column="responseid" jdbcType="VARCHAR" property="responseid" />
+    <result column="accountid" jdbcType="VARCHAR" property="accountid" />
+    <result column="keyword" jdbcType="VARCHAR" property="keyword" />
+    <result column="templateid" jdbcType="VARCHAR" property="templateid" />
+    <result column="msgtype" jdbcType="VARCHAR" property="msgtype" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    responseid, accountid, keyword, templateid, msgtype, updatetime
+  </sql>
+
+    <!-- 根据ID查询 -->
+  <select id="loadById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />
+    from wx_base_autoresponse
+    where responseid = #{responseid}
+  </select>
+  
+  <!-- 查询所有的结果集-->
+  <select id="loadListByParams" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from wx_base_autoresponse
+  </select>
+  
+    <!-- 新增 -->
+  <insert id="save" parameterType="com.xuh.platform.module.message.entity.WxBaseAutoresponse" >
+     insert into wx_base_autoresponse (responseid, accountid, keyword, 
+      templateid, msgtype, updatetime
+      )
+    values (#{responseid}, #{accountid}, #{keyword}, 
+      #{templateid}, #{msgtype}, #{updatetime}
+      )
+ 
+  
+  </insert>
+ 
+  <!-- 更新 -->
+  <update id="update" parameterType="com.xuh.platform.module.message.entity.WxBaseAutoresponse" >
+       update wx_base_autoresponse
+    set 
+      accountid = #{accountid},
+      keyword = #{keyword},
+      templateid = #{templateid},
+      msgtype = #{msgtype},
+      updatetime = #{updatetime}
+      where responseid = #{responseid}
+  </update>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from wx_base_autoresponse
+    where responseid = #{responseid}
+  </delete>
+  
+  <!-- 分页查询 -->
+  <select id="loadPageByParams"  resultType="map" parameterType="map" >
+    select * from (
+    select s1.responseid, s1.accountid, s1.keyword, s1.templateid,t1.templatename, s1.msgtype, s1.updatetime
+	    from wx_base_autoresponse s1
+	    left join wx_base_texttemplate t1 on s1.templateid=t1.templateid
+	    where s1.msgtype='text' and s1.accountid=#{accountid}
+    union all
+    select s2.responseid, s2.accountid, s2.keyword, s2.templateid,t2.templatename, s2.msgtype, s2.updatetime
+	    from wx_base_autoresponse s2
+	    left join wx_base_newstemplate t2 on s2.templateid=t2.templateid
+	    where s2.msgtype='news' and s2.accountid=#{accountid}) as a
+    <where>
+    	<if test="keyword!=null and keyword!=''"> and a.keyword like #{keyword}"%"</if>
+    </where>
+     order by a.updatetime desc
+    limit #{start},#{end}
+  </select>
+  <select id="loadCountByParams" resultType="int" parameterType="map" >
+    select sum(n) from (
+    select count(*) as n
+	    from wx_base_autoresponse s1
+	    left join wx_base_texttemplate t1 on s1.templateid=t1.templateid
+	    where s1.msgtype='text' and s1.accountid=#{accountid}
+    	<if test="keyword!=null and keyword!=''"> and s1.keyword like #{keyword}"%"</if>
+    union all
+    select count(*) as n
+	    from wx_base_autoresponse s2
+	    left join wx_base_newstemplate t2 on s2.templateid=t2.templateid
+	    where s2.msgtype='news' and s2.accountid=#{accountid}
+    	<if test="keyword!=null and keyword!=''"> and s2.keyword like #{keyword}"%"</if>
+	    ) as a
+    <where>
+    	
+    </where>
+  </select>
+  
+    <!--根据系统账号ID和关键词获得回复信息 -->
+  <select id="loadByAccountid" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from wx_base_autoresponse
+    where accountid=#{accountid} and keyword=#{keyword}
+    limit 0,1
+  </select>
+  
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuh.platform.module.message.dao.WxBaseReceivetextDao">
+  <resultMap id="BaseResultMap" type="com.xuh.platform.module.message.entity.WxBaseReceivetext">
+    <id column="textid" jdbcType="VARCHAR" property="textid" />
+    <result column="accountid" jdbcType="VARCHAR" property="accountid" />
+    <result column="textcontent" jdbcType="VARCHAR" property="textcontent" />
+    <result column="fromusername" jdbcType="CHAR" property="fromusername" />
+    <result column="msgid" jdbcType="VARCHAR" property="msgid" />
+    <result column="msgtype" jdbcType="VARCHAR" property="msgtype" />
+    <result column="rescontent" jdbcType="VARCHAR" property="rescontent" />
+    <result column="responseflag" jdbcType="CHAR" property="responseflag" />
+    <result column="tousername" jdbcType="VARCHAR" property="tousername" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    textid, accountid, textcontent, fromusername, msgid, msgtype, rescontent, responseflag, 
+    tousername, addtime
+  </sql>
+  
+    
+   <!-- 根据ID查询 -->
+  <select id="loadById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />
+    from wx_base_receivetext
+    where textid = #{textid}
+  </select>
+  
+  <!-- 查询所有的结果集-->
+  <select id="loadListByParams" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from wx_base_receivetext
+  </select>
+  
+    <!-- 新增 -->
+  <insert id="save" parameterType="com.xuh.platform.module.message.entity.WxBaseReceivetext" >
+    insert into wx_base_receivetext (textid, accountid, textcontent, 
+      fromusername, msgid, msgtype, 
+      rescontent, responseflag, tousername, 
+      addtime)
+    values (#{textid}, #{accountid}, #{textcontent}, 
+      #{fromusername}, #{msgid}, #{msgtype}, 
+      #{rescontent}, #{responseflag}, #{tousername}, 
+      #{addtime})
+  
+  </insert>
+ 
+  <!-- 更新 -->
+  <update id="update" parameterType="com.xuh.platform.module.message.entity.WxBaseReceivetext" >
+      update wx_base_receivetext
+    set textid = #{textid},
+      accountid = #{accountid},
+      textcontent = #{textcontent},
+      fromusername = #{fromusername},
+      msgid = #{msgid},
+      msgtype = #{msgtype},
+      rescontent = #{rescontent},
+      responseflag = #{responseflag},
+      tousername = #{tousername},
+      addtime = #{addtime}
+  </update>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from wx_base_receivetext
+    where textid = #{textid}
+  </delete>
+  
+  <!-- 分页查询 -->
+  <select id="loadPageByParams"  resultType="map" parameterType="map" >
+    select <include refid="Base_Column_List" />,date_format(addtime,'%Y-%c-%d %h:%i:%s') as addtimeStr
+    from wx_base_receivetext
+    <where>
+    	<if test="textcontent!=null and textcontent!=''">textcontent like "%"#{textcontent}"%"</if>
+    	<if test="accountid!=null and accountid!=''">accountid=#{accountid}</if>
+    </where>
+     order by addtime desc
+    limit #{start},#{end}
+  </select>
+  <select id="loadCountByParams" resultType="int" parameterType="map" >
+    select count(*)
+    from wx_base_receivetext
+    <where>
+    	<if test="textcontent!=null and textcontent!=''">textcontent like "%"#{textcontent}"%"</if>
+    	<if test="accountid!=null and accountid!=''">accountid=#{accountid}</if>
+    </where>
+  </select>
+</mapper>

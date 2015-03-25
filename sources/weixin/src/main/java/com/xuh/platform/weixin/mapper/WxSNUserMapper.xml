@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuh.platform.weixin.dao.WxSNUserDao" >
+  <resultMap id="BaseResultMap" type="com.xuh.platform.weixin.entity.WxSNUser" >
+    <id column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="headImgUrl" property="headImgUrl" jdbcType="VARCHAR" />
+    <result column="sncode" property="sncode" jdbcType="VARCHAR" />
+    <result column="mcode" property="mcode" jdbcType="VARCHAR" />
+    <result column="endDate" property="endDate" jdbcType="TIMESTAMP" />
+    
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    uid, openid, nickname, sex,country,province,city,headImgUrl,sncode,mcode,endDate,updatetime
+  </sql>
+  
+   <!-- 根据ID查询 -->
+  <select id="loadById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" />
+    from wx_snuser
+    where uid = #{uid}
+  </select>
+  
+   <!-- 根据OPenID查询 -->
+  <select id="loadByOpenId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />
+    from wx_snuser
+    where openid = #{openid}
+  </select>
+  
+  
+   <!-- 根据机器码查询 -->
+  <select id="loadByMcode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />
+    from wx_snuser
+    where mcode = #{mcode}
+  </select>
+  
+   <!-- 查询所有的结果集-->
+  <select id="loadListByParams" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from wx_snuser
+  </select>
+  
+    <!-- 新增 -->
+  <insert id="save" parameterType="com.xuh.platform.weixin.entity.WxSNUser" useGeneratedKeys="true" keyProperty="uid" >
+    insert into wx_snuser ( openid, nickname, sex,country,province,city,
+    headImgUrl,sncode,mcode,endDate,updatetime)
+    values (#{openid}, #{nickname}, #{sex},#{country},#{province},#{city},
+    #{headImgUrl},#{sncode},#{mcode},#{endDate},#{updatetime})
+  </insert>
+ 
+  <!-- 更新 -->
+  <update id="update" parameterType="com.xuh.platform.weixin.entity.WxSNUser" >
+     update wx_snuser
+     set sncode = #{sncode},endDate = #{endDate}
+     where
+      uid = #{uid}
+  </update>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from wx_snuser
+    where uid = #{uid}
+  </delete>
+  
+  <!-- 分页查询 -->
+  <select id="loadPageByParams"  resultType="map" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from wx_snuser
+  
+    <where> 
+       <if test="nickname!=null and nickname!=''"> and nickname like "%"#{nickname}"%"</if>
+       <if test="mcode!=null and mcode!=''"> and mcode = #{mcode}</if>
+       <if test="isend!=null and isend!='' and isend==0">  <![CDATA[ and endDate >= curdate()]]>  </if>
+       <if test="isend!=null and isend!='' and isend==1">  <![CDATA[ and endDate < curdate()]]> </if>
+    </where>
+     
+  </select>
+  <select id="loadCountByParams" resultType="int" parameterType="map" >
+    select count(*)
+    from wx_snuser
+    <where> 
+       <if test="nickname!=null and nickname!=''"> and nickname like "%"#{nickname}"%"</if>
+       <if test="mcode!=null and mcode!=''"> and mcode = #{mcode}</if>
+        <if test="isend!=null and isend!='' and isend=='0'">  <![CDATA[ and endDate >= curdate()]]>  </if>
+       <if test="isend!=null and isend!='' and isend=='1'">  <![CDATA[ and endDate < curdate()]]> </if>
+    </where>
+  </select>
+  
+</mapper>

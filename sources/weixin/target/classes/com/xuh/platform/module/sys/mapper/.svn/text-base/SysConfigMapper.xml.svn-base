@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuh.platform.module.sys.dao.SysConfigDao" >
+  <resultMap id="BaseResultMap" type="com.xuh.platform.module.sys.entity.SysConfig" >
+    <id column="configid" property="configid" jdbcType="VARCHAR" />
+    <result column="configcode" property="configcode" jdbcType="VARCHAR" />
+    <result column="configname" property="configname" jdbcType="VARCHAR" />
+    <result column="configvalue" property="configvalue" jdbcType="VARCHAR" />
+    <result column="configdesc" property="configdesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    configid, configcode, configname, configvalue, configdesc
+  </sql>
+  
+   <!-- 根据ID查询 -->
+  <select id="loadById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />
+    from sys_config
+    where configid = #{configid}
+  </select>
+  
+  <!-- 查询所有的结果集-->
+  <select id="loadListByParams" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from sys_config
+  </select>
+  
+    <!-- 新增 -->
+  <insert id="save" parameterType="com.xuh.platform.module.sys.entity.SysConfig" >
+    insert into sys_config (configid, configcode, configname, 
+      configvalue, configdesc)
+    values (#{configid}, #{configcode}, #{configname}, 
+      #{configvalue}, #{configdesc})
+  </insert>
+ 
+  <!-- 更新 -->
+  <update id="update" parameterType="com.xuh.platform.module.sys.entity.SysConfig" >
+     update sys_config
+     set configcode = #{configcode},
+      configname = #{configname},
+      configvalue = #{configvalue},
+      configdesc = #{configdesc},
+      configid = #{configid}
+  </update>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from sys_config
+    where configid = #{configid}
+  </delete>
+  
+  <!-- 分页查询 -->
+  <select id="loadPageByParams"  resultType="map" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from sys_config
+  </select>
+  <select id="loadCountByParams" resultType="int" parameterType="map" >
+    select count(*)
+    from sys_config
+  </select>
+  
+</mapper>

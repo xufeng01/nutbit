@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/xh/!svn/ver/159/code/weixin/src/main/webapp/js/module/message
+END
+newstemplateList.js
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xh/!svn/ver/181/code/weixin/src/main/webapp/js/module/message/newstemplateList.js
+END
+newsitemAdd.js
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/xh/!svn/ver/190/code/weixin/src/main/webapp/js/module/message/newsitemAdd.js
+END
+defaultipAdd.js
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/xh/!svn/ver/197/code/weixin/src/main/webapp/js/module/message/defaultipAdd.js
+END
+texttemplateAdd.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xh/!svn/ver/159/code/weixin/src/main/webapp/js/module/message/texttemplateAdd.js
+END
+defaultipList.js
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/xh/!svn/ver/197/code/weixin/src/main/webapp/js/module/message/defaultipList.js
+END
+texttemplateList.js
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xh/!svn/ver/181/code/weixin/src/main/webapp/js/module/message/texttemplateList.js
+END
+autoresponseAdd.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xh/!svn/ver/181/code/weixin/src/main/webapp/js/module/message/autoresponseAdd.js
+END
+newstemplateAdd.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xh/!svn/ver/165/code/weixin/src/main/webapp/js/module/message/newstemplateAdd.js
+END
+autoresponseList.js
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xh/!svn/ver/181/code/weixin/src/main/webapp/js/module/message/autoresponseList.js
+END
+receivetextList.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xh/!svn/ver/197/code/weixin/src/main/webapp/js/module/message/receivetextList.js
+END

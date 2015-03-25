@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuh.platform.module.sys.dao.SysFuncDao" >
+  <resultMap id="BaseResultMap" type="com.xuh.platform.module.sys.entity.SysFunc" >
+    <id column="funcid" property="funcid" jdbcType="VARCHAR" />
+    <result column="funcname" property="funcname" jdbcType="VARCHAR" />
+    <result column="funcurl" property="funcurl" jdbcType="VARCHAR" />
+    <result column="funcIcon" property="funcicon" jdbcType="VARCHAR" />
+    <result column="funclevel" property="funclevel" jdbcType="CHAR" />
+    <result column="funcorder" property="funcorder" jdbcType="INTEGER" />
+    <result column="parentid" property="parentid" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    funcid, funcname, funcurl, funcIcon, funclevel, funcorder, parentid
+  </sql>
+  
+   <!-- 根据ID查询 -->
+  <select id="loadById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_func
+    where funcid = #{funcid}
+  </select>
+  
+  <!-- 查询所有的结果集-->
+  <select id="loadListByParams" resultMap="BaseResultMap" parameterType="map" >
+    select <include refid="Base_Column_List" />
+    from sys_func
+     <where>
+    	<if test="parentid!=null and parentid!=''">parentid = #{parentid}</if>
+    </where>
+  </select>
+  
+    <!-- 新增 -->
+  <insert id="save" parameterType="com.xuh.platform.module.sys.entity.SysFunc" >
+    insert into sys_func (funcid, funcname, funcurl, 
+      funcIcon, funclevel, funcorder, 
+      parentid)
+    values (#{funcid}, #{funcname}, #{funcurl}, 
+      #{funcicon}, #{funclevel}, #{funcorder}, 
+      #{parentid})
+  </insert>
+ 
+  <!-- 更新 -->
+  <update id="update" parameterType="com.xuh.platform.module.sys.entity.SysFunc" >
+     update sys_func
+    set 
+      funcname = #{funcname},
+      funcurl = #{funcurl},
+      funcIcon = #{funcicon},
+      funcorder = #{funcorder}
+      where funcid = #{funcid}
+  </update>
+  
+  <!-- 删除 -->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from sys_func
+    where funcid = #{funcid}
+  </delete>
+  
+  <!-- 分页查询 -->
+  <select id="loadPageByParams"  resultType="map" parameterType="map" >
+    select funcid,  funcname,  funcurl,  funcIcon,  funclevel,  funcorder,  parentid
+    from sys_func 
+    <where> 
+       <if test="funcname!=null and funcname!=''"> and funcname like #{funcname}"%"</if>
+       <if test="funcid!=null and funcid!=''"> and parentid =#{funcid}</if>
+    </where>
+    order by funcorder
+     limit #{start},#{end}
+  </select>
+  <select id="loadCountByParams" resultType="int" parameterType="map" >
+    select count(*)
+    from sys_func 
+    <where> 
+       <if test="funcname!=null and funcname!=''"> and funcname like #{funcname}"%"</if>
+       <if test="funcid!=null and funcid!=''"> and parentid =#{funcid}</if>
+    </where>
+  </select>
+  
+   <select id="loadFuncByUserid"  resultMap="BaseResultMap" parameterType="string" >
+    select func.funcid, func.funcname, func.funcurl, 
+    func.funcIcon, func.funclevel,func.funcorder, func.parentid
+    from sys_func func
+    left join sys_rolefunc rf on rf.funcid=func.funcid
+    left join sys_role role on role.roleid=rf.roleid
+    left join sys_userrole ur on ur.roleid=role.roleid
+    left join sys_user user on user.userid=ur.userid
+    where user.userid=#{userid}
+    order by func.funcorder
+  </select>
+  
+   <select id="loadFuncTree"  resultType="map">
+     select funcid as id, funcname as name, parentid as pId
+    from sys_func
+    where parentid='0'
+    order by funcorder
+  </select>
+  
+    <!-- 查询所有的结果集-->
+  <select id="loadListByTree" resultType="map">
+    select funcid as id, funcname as name, parentid as pId
+    from sys_func
+  </select>
+  
+</mapper>
