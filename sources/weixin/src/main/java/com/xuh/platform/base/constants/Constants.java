@@ -7,6 +7,7 @@ package com.xuh.platform.base.constants;
  */
 public class Constants {
 
+	
 	/**
 	 * 用户session key
 	 */
