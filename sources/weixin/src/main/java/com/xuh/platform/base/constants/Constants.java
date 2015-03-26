@@ -9,7 +9,7 @@ public class Constants {
 
 	
 	/**
-	 * 用户session key1
+	 * 用户session key
 	 */
 	public static final String SESSION_USER_KEY="platform_weixin_current_session_user_key";
 
