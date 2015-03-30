@@ -2,7 +2,7 @@ package com.xuh.platform.base.constants;
 
 /**
  * base常量类
- * @author xufeng
+ * @author xufeng1
  * @date 2014.9.4
  */
 public class Constants {
